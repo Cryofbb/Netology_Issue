@@ -1,17 +1,13 @@
 package ru.netology.manager;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import ru.netology.domain.Issue;
+import ru.netology.domain.NotFoundExeption;
 import ru.netology.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
-@NoArgsConstructor
-@Data
 
 public class Manager {
     private Repository repo;
@@ -69,12 +65,20 @@ public class Manager {
     }
 
 
-    public void openCloseByID(int id) {
+    public void changeStatusById(int id) {
         for (Issue issue : repo.findAllIssues()) {
             if (issue.getId() == id) {
                 issue.setOpened(!issue.getOpened());
             }
-            System.out.printf("Id %id not found\n", id);
         }
+    }
+
+    public Boolean checkStatus(int id) {
+        for (Issue issue : repo.findAllIssues()) {
+            if (issue.getId() == id) {
+                return issue.getOpened();
+            }
+        }
+        throw new NotFoundExeption("Id = " + id + " not found");
     }
 }
