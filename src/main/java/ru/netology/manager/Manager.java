@@ -20,6 +20,27 @@ public class Manager {
         repo.addNewIssue(issue);
     }
 
+    public List<Issue> findOpened() {
+        List<Issue> tmp = new ArrayList<>();
+        for (Issue issue : repo.findAllIssues()) {
+            if (issue.isOpened()) {
+                tmp.add(issue);
+            }
+        }
+        return tmp;
+    }
+
+    public List<Issue> findClosed() {
+        List<Issue> tmp = new ArrayList<>();
+        for (Issue issue : repo.findAllIssues()) {
+            if (!issue.isOpened()) {
+                tmp.add(issue);
+            }
+        }
+        return tmp;
+    }
+
+
     public List<Issue> findAll() {
         return repo.findAllIssues();
     }
@@ -51,7 +72,7 @@ public class Manager {
     }
 
     public List<Issue> filterByStatus(boolean status) {
-        return filterBy(issue -> issue.getOpened() == status);
+        return filterBy(issue -> issue.isOpened() == status);
     }
 
     public List<Issue> sortByNew() {
@@ -64,11 +85,10 @@ public class Manager {
         return repo.findAllIssues();
     }
 
-
     public void changeStatusById(int id) {
         for (Issue issue : repo.findAllIssues()) {
             if (issue.getId() == id) {
-                issue.setOpened(!issue.getOpened());
+                issue.setOpened(!issue.isOpened());
             }
         }
     }
@@ -76,7 +96,7 @@ public class Manager {
     public Boolean checkStatus(int id) {
         for (Issue issue : repo.findAllIssues()) {
             if (issue.getId() == id) {
-                return issue.getOpened();
+                return issue.isOpened();
             }
         }
         throw new NotFoundExeption("Id = " + id + " not found");

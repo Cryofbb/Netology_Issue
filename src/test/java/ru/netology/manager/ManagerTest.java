@@ -18,8 +18,8 @@ class ManagerTest {
 
     private Issue i1 = new Issue(1, "Issue 1", "Marc Philipp", 2020_08_10, new HashSet<>(Arrays.asList("Label 1", "Label 2", "Label 3")), new HashSet<>(Arrays.asList("Sam Brannen", "Saurav Jaiswal", "Juliette de Rancourt")), true);
     private Issue i2 = new Issue(2, "Issue 2", "Saurav Jaiswal", 2020_09_10, new HashSet<>(Collections.singletonList("Label 1")), new HashSet<>(Arrays.asList("Sam Brannen", "Juliette de Rancourt")), true);
-    private Issue i3 = new Issue(3, "Issue 3", "Marc Philipp", 2021_01_30, new HashSet<>(Arrays.asList("Label 2", "Label 5")), new HashSet<>(Arrays.asList(("Juliette de Rancourt"))), false);
-    private Issue i4 = new Issue(4, "Issue 4", "Juliette de Rancourt", 2019_02_24, new HashSet<>(Arrays.asList("Label 5")), new HashSet<>(Arrays.asList(("Juliette de Rancourt"))), true);
+    private Issue i3 = new Issue(3, "Issue 3", "Marc Philipp", 2021_01_30, new HashSet<>(Arrays.asList("Label 2", "Label 5")), new HashSet<>(Collections.singletonList(("Juliette de Rancourt"))), false);
+    private Issue i4 = new Issue(4, "Issue 4", "Juliette de Rancourt", 2019_02_24, new HashSet<>(Collections.singletonList("Label 5")), new HashSet<>(Collections.singletonList(("Juliette de Rancourt"))), true);
     private Issue i5 = new Issue(5, "Issue 5", "Juliette de Rancourt", 2020_12_31, new HashSet<>(), new HashSet<>(), true);
 
     @BeforeEach
@@ -43,13 +43,23 @@ class ManagerTest {
     }
 
     @Test
-    void findOpened() {
+    void filterByOpened() {
         assertEquals(Arrays.asList(i1, i2, i4), manager.filterByStatus(true));
     }
 
     @Test
+    void findOpened() {
+        assertEquals(Arrays.asList(i1, i2, i4), manager.findOpened());
+    }
+
+    @Test
     void findClosed() {
-        assertEquals(Arrays.asList(i3), manager.filterByStatus(false));
+        assertEquals(Collections.singletonList(i3), manager.findClosed());
+    }
+
+    @Test
+    void filterByClosed() {
+        assertEquals(Collections.singletonList(i3), manager.filterByStatus(false));
     }
 
     @Test
@@ -64,12 +74,12 @@ class ManagerTest {
 
     @Test
     void findByAssignee() {
-        assertEquals(Arrays.asList(i1), manager.filterByAssign("Saurav Jaiswal"));
+        assertEquals(Collections.singletonList(i1), manager.filterByAssign("Saurav Jaiswal"));
     }
 
     @Test
     void findByDate() {
-        assertEquals(Arrays.asList(i3), manager.filterByDate(2021_01_30));
+        assertEquals(Collections.singletonList(i3), manager.filterByDate(2021_01_30));
     }
 
 

@@ -18,7 +18,7 @@ public class Issue {
     private int date;
     private Set<String> label = new HashSet<>();
     private Set<String> assignee = new HashSet<>();
-    private Boolean opened;
+    private boolean opened;
 
     public void addLabel(String labels) {
         label.add(labels);
