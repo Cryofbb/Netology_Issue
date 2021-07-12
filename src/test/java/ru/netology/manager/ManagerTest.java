@@ -106,11 +106,4 @@ class ManagerTest {
             manager.checkStatus(12);
         });
     }
-
-//    @Test
-//    void changeStatusWithWrongID() {
-//        assertThrows(NotFoundExeption.class, () -> {
-//            manager.changeStatusById(12);
-//        });
-//    }
 }
